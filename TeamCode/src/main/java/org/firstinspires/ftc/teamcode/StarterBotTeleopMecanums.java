@@ -34,6 +34,9 @@ package org.firstinspires.ftc.teamcode;
 
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -82,6 +85,7 @@ public class StarterBotTeleopMecanums extends OpMode {
     private DcMotorEx launcher = null;
     private CRServo leftFeeder = null;
     private CRServo rightFeeder = null;
+    private FtcDashboard dashboard;
 
     ElapsedTime feederTimer = new ElapsedTime();
 
@@ -185,6 +189,7 @@ public class StarterBotTeleopMecanums extends OpMode {
         /*
          * Tell the driver that initialization is complete.
          */
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         telemetry.addData("Status", "Initialized");
     }
 
@@ -233,12 +238,9 @@ public class StarterBotTeleopMecanums extends OpMode {
          */
         launch(gamepad1.rightBumperWasPressed());
 
-        /*
-         * Show the state and motor powers
-         */
         telemetry.addData("State", launchState);
         telemetry.addData("motorSpeed", launcher.getVelocity());
-
+        telemetry.update();
     }
 
     /*
